@@ -1,1 +1,15 @@
-{"active_position": null, "total_trades": 0, "wins": 0, "losses": 0}
+{
+  "active_position": {
+    "symbol": "POLYUSDT",
+    "side": "UP",
+    "entry_price": 0.2696,
+    "size": 0.001,
+    "highest_price": 0.2696,
+    "stop_pct": -4.0,
+    "opened_at_unix": 1777139219,
+    "opened_at": "2026-04-25T17:46:59Z"
+  },
+  "total_trades": 0,
+  "wins": 0,
+  "losses": 0
+}

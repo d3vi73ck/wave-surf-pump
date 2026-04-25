@@ -18,15 +18,41 @@ VOLUME_SPIKE_THRESHOLD = 3.0  # 3x average hourly volume
 MAX_PRICE_PUMP_PCT = 8.0  # skip if already pumped >8% in last hour
 MIN_PRICE_MOVE_PCT = 0.5  # must be moving at least a little
 
+_TRADABLE_SET = None
+
+def get_tradable_usdt_pairs():
+    """Cache tradable symbols (exclude BREAK/PAUSE/HALT coins)."""
+    global _TRADABLE_SET
+    if _TRADABLE_SET is not None:
+        return _TRADABLE_SET
+    try:
+        url = "https://api.binance.com/api/v3/exchangeInfo"
+        with urlopen(url, timeout=15) as resp:
+            info = json.loads(resp.read())
+        bad_statuses = {"BREAK", "PAUSE", "HALT"}
+        tradable = set()
+        for s in info["symbols"]:
+            if s["symbol"].endswith("USDT") and s["status"] not in bad_statuses:
+                tradable.add(s["symbol"])
+        _TRADABLE_SET = tradable
+        return tradable
+    except Exception as e:
+        print(f"WARNING: Could not fetch exchangeInfo ({e}), falling back to full scan", file=__import__('sys').stderr)
+        _TRADABLE_SET = set()
+        return _TRADABLE_SET
+
+
 def get_all_usdt_pairs():
     url = "https://api.binance.com/api/v3/ticker/24hr"
     with urlopen(url) as resp:
         data = json.loads(resp.read())
     pairs = []
+    tradable = get_tradable_usdt_pairs()
     for t in data:
         sym = t["symbol"]
         if (sym.endswith("USDT") and 
-            not any(x in sym for x in ["UP", "DOWN", "BULL", "BEAR", "BKRW"])):
+            not any(x in sym for x in ["UP", "DOWN", "BULL", "BEAR", "BKRW"]) and
+            sym in tradable):
             try:
                 vol = float(t["quoteVolume"])
                 if vol >= MIN_DAILY_VOLUME_USD:
@@ -99,6 +125,9 @@ def scan():
     }
     
     coins = get_all_usdt_pairs()
+    # Sort by 24h volume descending, take top 50 most liquid
+    coins.sort(key=lambda c: c["volume_24h"], reverse=True)
+    coins = coins[:50]
     result["scanned_count"] = len(coins)
     
     for coin in coins:
