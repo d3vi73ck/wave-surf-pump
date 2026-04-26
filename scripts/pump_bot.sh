@@ -12,5 +12,5 @@ echo "🌊 Wave Surf Pump v4 — $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 echo "──────────────────────────────────────────"
 
 cd "$DIR"
-timeout 120 python3 "$DIR/scripts/trader.py"
-python3 "$DIR/scripts/report.py" "$DATA_DIR" "long"
+timeout 120 python3 -m scripts.trader
+python3 -m scripts.report "$DATA_DIR" "long"

@@ -1,49 +1,33 @@
 {
-  "timestamp": "2026-04-26T15:20:40Z",
+  "timestamp": "2026-04-26T15:26:28Z",
   "candidates": [
     {
       "symbol": "OGNUSDT",
-      "price": 0.02359,
-      "volume_24h_usd": 428406,
+      "price": 0.02368,
+      "volume_24h_usd": 426227,
       "score": 90,
-      "max_vol_spike_ratio": 55.3,
-      "price_change_1h_pct": 1.2,
-      "buy_sell_ratio": 0.68,
-      "order_book_ratio": 2.09,
-      "5m_momentum": {
-        "last_5m_green": true,
-        "last_two_5m_green": false,
-        "5m_green_streak": 2,
-        "5m_vol_ratio": 0.0,
-        "5m_price_change_pct": 0.3
-      }
-    },
-    {
-      "symbol": "UMAUSDT",
-      "price": 0.486,
-      "volume_24h_usd": 989358,
-      "score": 80,
-      "max_vol_spike_ratio": 24.4,
-      "price_change_1h_pct": 1.89,
-      "buy_sell_ratio": 0.51,
-      "order_book_ratio": 2.61,
+      "max_vol_spike_ratio": 56.3,
+      "price_change_1h_pct": 1.24,
+      "buy_sell_ratio": 0.15,
+      "order_book_ratio": 1.75,
       "5m_momentum": {
         "last_5m_green": false,
         "last_two_5m_green": false,
         "5m_green_streak": 1,
-        "5m_vol_ratio": 0.1,
-        "5m_price_change_pct": 0.0
+        "5m_vol_ratio": 0.0,
+        "5m_price_change_pct": -0.21
       }
     }
   ],
   "scanned_count": 100,
-  "strategy": "v4_embedded_scanner",
+  "strategy": "v5_long",
   "btc_mood": {
-    "btc_price": 78114.3,
-    "4h_change_pct": 0.14,
+    "btc_price": 78034.0,
+    "4h_change_pct": 0.04,
     "mood": "bullish",
     "penalty": 0,
     "hard_block": false,
-    "red_candles_out_of_4": 1
+    "hard_block_short": false,
+    "red_candles_out_of_4": 2
   }
 }
