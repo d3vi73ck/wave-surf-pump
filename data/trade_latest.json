@@ -1,7 +1,7 @@
 {
   "btc_mood": {
-    "btc_price": 78034.0,
-    "4h_change_pct": 0.04,
+    "btc_price": 78072.3,
+    "4h_change_pct": 0.09,
     "mood": "bullish",
     "penalty": 0,
     "hard_block": false,
@@ -12,7 +12,7 @@
     "OGNUSDT"
   ],
   "scan_top_scores": [
-    90
+    110
   ],
   "position_check": {
     "action": "hold",
@@ -23,7 +23,7 @@
     "spread_pct": 0.17,
     "pnl_pct": -0.41,
     "stop_pct": -4.0,
-    "elapsed_seconds": 944,
+    "elapsed_seconds": 1781,
     "entry_score": 110,
     "highest_price": 0.02379
   }
