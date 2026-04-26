@@ -7,3 +7,4 @@ timestamp,action,symbol,price,entry_price,size_usd,pnl_pct,reason
 2026-04-26T12:35:44Z,close,SCRTUSDT,0.1188,0.17,-1.2,time_expired_2h
 2026-04-26T13:35:44Z,close,PSGUSDT,0.797,0.7945,0.25,0.05,switch_SNXUSDT_score100_vs_0
 2026-04-26T15:40:42Z,close,SNXUSDT,0.312,0.3105,0.32,0.12,time_expired_2h
+2026-04-26T17:10:43Z,close,SFPUSDT,0.3407,0.3476,0.15,-2.24,switch_OGNUSDT_score110_vs_80

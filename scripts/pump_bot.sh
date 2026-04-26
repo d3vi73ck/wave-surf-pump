@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# pump_bot.sh — Wave Surf Pump v4.1
+# pump_bot.sh — Wave Surf Pump v4.1 (LONG)
 # Trader runs embedded scanner + BTC mood check.
 #
 set -euo pipefail
@@ -14,67 +14,77 @@ echo "────────────────────────�
 cd "$DIR"
 timeout 120 python3 "$DIR/scripts/trader.py"
 
-# Formatted report
 python3 -c "
-import json
-trade = json.load(open('$DATA_DIR/trade_latest.json'))
-state = json.load(open('$DATA_DIR/state.json'))
-scan = json.load(open('$DATA_DIR/scan_latest.json'))
+import json, subprocess as sp
+DATA = '$DATA_DIR'
+trade = json.load(open(DATA + '/trade_latest.json'))
+state = json.load(open(DATA + '/state.json'))
+scan = json.load(open(DATA + '/scan_latest.json'))
 
-# ── BTC Mood ──
+# BTC Mood
 btc = trade.get('btc_mood', {})
 if btc.get('btc_price'):
     emoji = {'crash':'💀','bearish':'🐻','freefall':'📉','bullish':'🟢','slipping':'⚠️','neutral':'⚪','unknown':'❓'}
     e = emoji.get(btc.get('mood','unknown'),'❓')
-    print(f'\\n{e} BTC {btc[\"btc_price\"]}$ | 4h: {btc.get(\"4h_change_pct\",0):+.2f}% | mood={btc.get(\"mood\",\"?\")}')
+    print(f'\\n{e} BTC {btc[\"btc_price\"]}\$ | 4h: {btc.get(\"4h_change_pct\",0):+.2f}% | mood={btc.get(\"mood\",\"?\")}')
     if trade.get('btc_penalty_applied'):
-        print(f'   ↳ Penalty applied: {btc.get(\"penalty\",0)} pts')
+        print(f'   Penalty applied: {btc.get(\"penalty\",0)} pts')
 
-# ── Scanner summary ──
-print(f'\\n🔍 Scan: {len(scan.get(\"candidates\",[]))} candidates')
+# Scanner summary
+print(f'\\nScan: {len(scan.get(\"candidates\",[]))} candidates')
 for c in scan.get('candidates', [])[:3]:
     m5 = c.get('5m_momentum', {}) or {}
     mm = ''
     if m5:
-        g = '🟢' if m5.get('last_5m_green') else '🔴'
-        mm = f\" 5m:{g}{m5.get('5m_vol_ratio',0):.1f}x\"
+        g = 'G' if m5.get('last_5m_green') else 'R'
+        mm = f' 5m:{g}{m5.get(\"5m_vol_ratio\",0):.1f}x'
     print(f'  {c[\"symbol\"]:12s} score={c[\"score\"]:3d}  vol={c.get(\"max_vol_spike_ratio\",0):>5.1f}x b/s={c.get(\"buy_sell_ratio\",0):>5.1f} ba={c.get(\"order_book_ratio\",0):>5.2f}{mm}')
 if len(scan.get('candidates',[])) > 3:
     print(f'  ... and {len(scan[\"candidates\"])-3} more')
 
-# ── Trade action ──
+# Trade action
 if trade.get('closed'):
-    print(f'\\n📤 Closed: {trade[\"symbol\"]} | {trade[\"pnl_pct\"]}% | {trade.get(\"reason\",\"\")}')
+    print(f'\\nClosed: {trade[\"symbol\"]} | {trade[\"pnl_pct\"]}% | {trade.get(\"reason\",\"\")}')
     if trade.get('switch_entered'):
         e = trade['switch_entered']
-        print(f'🔄 Switched → {e[\"symbol\"]} @ \${e[\"price_mid\"]} | score={e[\"score\"]}')
+        print(f'Switched to {e[\"symbol\"]} @ \${e[\"price_mid\"]} | score={e[\"score\"]}')
     elif trade.get('entered'):
         e = trade['entered']
-        print(f'🚀 New entry: {e[\"symbol\"]} @ \${e[\"price_mid\"]} | score={e[\"score\"]} | vol={e[\"vol_spike_ratio\"]}x')
+        print(f'New entry: {e[\"symbol\"]} @ \${e[\"price_mid\"]} | score={e[\"score\"]} | vol={e[\"vol_spike_ratio\"]}x')
 elif trade.get('position_check'):
     pc = trade['position_check']
     if pc['action'] == 'exit':
-        print(f'\\n📤 Exit: {pc[\"pnl_pct\"]}% | {pc.get(\"reason\",\"\")}')
+        print(f'\\nExit: {pc[\"pnl_pct\"]}% | {pc.get(\"reason\",\"\")}')
     else:
         held = pc.get('elapsed_seconds',0)
         label = f'({held//60}m {held%60}s)' if held else ''
-        print(f'\\n🏁 Holding: {pc[\"pnl_pct\"]}% | stop={pc[\"stop_pct\"]}% | entry_score={pc.get(\"entry_score\",\"?\")} {label}')
+        print(f'\\nHolding: {pc[\"pnl_pct\"]}% | stop={pc[\"stop_pct\"]}% | entry_score={pc.get(\"entry_score\",\"?\")} {label}')
         if pc.get('reason') and pc['reason'] != '':
-            print(f'  ↳ {pc[\"reason\"]}')
+            print(f'  -> {pc[\"reason\"]}')
 elif trade.get('entered'):
     e = trade['entered']
-    print(f'\\n🚀 Entered: {e[\"symbol\"]} @ \${e[\"price_mid\"]} | score={e[\"score\"]} | vol={e[\"vol_spike_ratio\"]}x | spread={e[\"spread_at_entry\"]}%')
+    print(f'\\nEntered: {e[\"symbol\"]} @ \${e[\"price_mid\"]} | score={e[\"score\"]} | vol={e[\"vol_spike_ratio\"]}x | spread={e[\"spread_at_entry\"]}%')
 elif trade.get('evaluation'):
     ev = trade['evaluation']
-    print(f'\\n⏭️  Skip: {ev.get(\"reason\",\"\")}')
+    print(f'\\nSkip: {ev.get(\"reason\",\"\")}')
 else:
-    print('\\nℹ️  No action')
+    print('\\nNo action')
 
-# ── Stats ──
+# Timeline
+tl = sp.run(['python3', '$DIR/scripts/timeline.py', DATA], capture_output=True, text=True)
+if tl.stdout.strip():
+    print()
+    print(tl.stdout.strip())
+
+# Stats
 print()
-print(f'📊 Stats: {state.get(\"total_trades\",0)} trades | {state.get(\"wins\",0)}W / {state.get(\"losses\",0)}L')
+print(f'Stats: {state.get(\"total_trades\",0)} trades | {state.get(\"wins\",0)}W / {state.get(\"losses\",0)}L')
 pos = state.get('active_position')
 if pos:
     opened = pos.get('opened_at','?')
-    print(f'📌 Position: {pos[\"symbol\"]} @ \${pos[\"entry_price\"]} (score={pos.get(\"entry_score\",\"?\")}) opened {opened}')
+    pnl_label = ''
+    pc = trade.get('position_check', {}) or {}
+    if pc.get('pnl_pct') is not None:
+        pnl_label = f' ({pc[\"pnl_pct\"]:+.2f}%)'
+    print(f'Position: {pos[\"symbol\"]} @ \${pos[\"entry_price\"]} (score={pos.get(\"entry_score\",\"?\")}){pnl_label} opened {opened}')
 " || true

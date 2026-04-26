@@ -1,17 +1,17 @@
 {
   "active_position": {
-    "symbol": "SFPUSDT",
+    "symbol": "OGNUSDT",
     "side": "UP",
-    "entry_price": 0.3476,
-    "entry_ask_price": 0.3478,
-    "entry_score": 80,
+    "entry_price": 0.02367,
+    "entry_ask_price": 0.0237,
+    "entry_score": 110,
     "size": 0.001,
-    "highest_price": 0.34765,
+    "highest_price": 0.02368,
     "stop_pct": -4.0,
-    "opened_at_unix": 1777211146,
-    "opened_at": "2026-04-26T13:45:46Z"
+    "opened_at_unix": 1777216244,
+    "opened_at": "2026-04-26T15:10:44Z"
   },
-  "total_trades": 8,
+  "total_trades": 9,
   "wins": 3,
-  "losses": 5
+  "losses": 6
 }
