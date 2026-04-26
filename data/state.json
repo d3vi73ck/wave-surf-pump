@@ -1,6 +1,17 @@
 {
-  "active_position": null,
-  "total_trades": 0,
-  "wins": 0,
-  "losses": 0
+  "active_position": {
+    "symbol": "SFPUSDT",
+    "side": "UP",
+    "entry_price": 0.3476,
+    "entry_ask_price": 0.3478,
+    "entry_score": 80,
+    "size": 0.001,
+    "highest_price": 0.34765,
+    "stop_pct": -4.0,
+    "opened_at_unix": 1777211146,
+    "opened_at": "2026-04-26T13:45:46Z"
+  },
+  "total_trades": 8,
+  "wins": 3,
+  "losses": 5
 }

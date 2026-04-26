@@ -1,1 +1,9 @@
 timestamp,action,symbol,price,entry_price,size_usd,pnl_pct,reason
+2026-04-26T02:00:40Z,close,2ZUSDT,0.08828,0.12,-1.19,time_expired_2h
+2026-04-26T04:50:39Z,close,IQUSDT,0.001116,0.27,-4.24,stop_loss_-4.0%
+2026-04-26T06:26:14Z,close,LAYERUSDT,0.0909,0.11,0.02,swapped_for_NOT
+2026-04-26T08:30:39Z,close,NOTUSDT,0.000452,0.22,5.16,time_expired_2h
+2026-04-26T10:05:47Z,close,CKBUSDT,0.001592,0.13,-4.18,stop_loss_-4.0%
+2026-04-26T12:35:44Z,close,SCRTUSDT,0.1188,0.17,-1.2,time_expired_2h
+2026-04-26T13:35:44Z,close,PSGUSDT,0.797,0.7945,0.25,0.05,switch_SNXUSDT_score100_vs_0
+2026-04-26T15:40:42Z,close,SNXUSDT,0.312,0.3105,0.32,0.12,time_expired_2h

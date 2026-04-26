@@ -1,11 +1,30 @@
 {
+  "btc_mood": {
+    "btc_price": 78099.9,
+    "4h_change_pct": 0.12,
+    "mood": "bullish",
+    "penalty": 0,
+    "hard_block": false,
+    "red_candles_out_of_4": 1
+  },
+  "scan_top3": [
+    "OGNUSDT"
+  ],
+  "scan_top_scores": [
+    75
+  ],
+  "btc_penalty_applied": false,
   "position_check": {
     "action": "hold",
     "reason": "",
-    "current_price": 0.2696,
-    "pnl_pct": 0.0,
+    "bid": 0.3411,
+    "ask": 0.3416,
+    "mid": 0.34135000000000004,
+    "spread_pct": 0.15,
+    "pnl_pct": -2.13,
     "stop_pct": -4.0,
-    "highest_price": 0.2696,
-    "elapsed_seconds": 4497
+    "highest_price": 0.34765,
+    "elapsed_seconds": 4800,
+    "entry_score": 80
   }
 }
